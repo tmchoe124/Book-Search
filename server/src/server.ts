@@ -7,7 +7,7 @@ import { resolvers } from './schemas/resolvers.js';
 import { context } from './context.js';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,7 +21,7 @@ async function startApolloServer() {
   app.use(routes);
 
   db.once('open', () => {
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🌍 Server listening at http://localhost:${PORT}`);
       console.log(`🚀 GraphQL endpoint: http://localhost:${PORT}${server.graphqlPath}`);
     });
